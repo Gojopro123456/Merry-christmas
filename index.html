@@ -2,295 +2,187 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>24 días contigo ♡</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>24 días contigo 💗</title>
 
 <style>
 * { box-sizing: border-box; }
 
 body {
   margin: 0;
-  padding: 25px 12px;
-  text-align: center;
+  min-height: 100vh;
+  background: #fff0f6;
   font-family: Georgia, serif;
-  color: #89516a;
-  background: linear-gradient(#fff0f6, #ffe4ed);
+  color: #a94e78;
+  text-align: center;
+  padding: 22px 12px;
 }
 
 h1 {
-  color: #c15e8c;
-  font-size: 34px;
-  margin-bottom: 5px;
+  font-size: clamp(30px, 7vw, 48px);
+  margin: 12px 0 5px;
+  color: #d66d9e;
 }
 
-.subtitle { color: #a56b81; }
+.subtitle {
+  font-size: 16px;
+  margin-bottom: 22px;
+}
 
-.scene {
-  max-width: 580px;
-  margin: 25px auto;
-  padding: 10px;
+.castle {
   position: relative;
+  width: min(100%, 650px);
+  margin: auto;
 }
 
-.tower {
-  position: absolute;
-  top: 35px;
-  width: 19%;
-  height: 180px;
-  background: #e9b995;
-  border: 4px solid white;
-  border-radius: 50px 50px 12px 12px;
-  z-index: 0;
-}
-
-.tower.left { left: 2%; }
-.tower.right { right: 2%; }
-
-.tower:before {
-  content: " ";
-  position: absolute;
-  top: -38px;
-  left: -8px;
-  width: calc(100% + 8px);
-  height: 65px;
-  background: #e994b9;
-  border: 4px solid white;
-  border-radius: 50% 50% 8px 8px;
-}
-
-.tower:after {
-  content: "♡";
-  position: absolute;
-  top: 58px;
-  left: 0;
-  right: 0;
-  font-size: 27px;
-  color: white;
-}
-
-.house {
-  position: relative;
-  z-index: 1;
-  margin: 75px auto 0;
-  max-width: 430px;
-  background: #eac19f;
-  border: 5px solid white;
-  border-radius: 20px;
-  padding: 15px 12px 20px;
-  box-shadow: 0 9px 20px #bd789b44;
-}
-
-.roof {
-  margin: -15px -12px 16px;
-  padding: 27px 8px 20px;
-  background: #e995ba;
-  border-bottom: 12px solid white;
-  border-radius: 18px 18px 30px 30px;
-  position: relative;
-}
-
-.roof:after {
-  content: "♥  ♥  ♥  ♥  ♥";
+.castle img {
   display: block;
-  color: white;
-  letter-spacing: 8px;
-  font-size: 15px;
-  margin-top: 12px;
+  width: 100%;
+  height: auto;
+  border-radius: 18px;
 }
-
-.roof h2 {
-  margin: 0;
-  color: white;
-  font-size: 25px;
-  text-shadow: 1px 2px #c66b94;
-}
-
-.candy {
-  font-size: 23px;
-  margin: 12px 0;
-}
-
-h3 { color: #a45b75; }
 
 .doors {
+  position: absolute;
+  inset: 0;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 9px;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  padding: 24% 13% 12%;
+  gap: 5px;
 }
 
 .door {
-  height: 65px;
-  border: 3px solid white;
-  border-radius: 12px;
-  background: #edb3cc;
-  color: #994e72;
-  font-family: Georgia, serif;
-  font-size: 21px;
+  border: 2px solid #fff;
+  border-radius: 12px 12px 5px 5px;
+  background: rgba(255, 190, 218, .94);
+  color: #a74375;
+  font-size: clamp(12px, 3vw, 19px);
   font-weight: bold;
-  box-shadow: 0 3px 5px #a65e7844;
+  box-shadow: 0 3px 6px #a94e7840;
   cursor: pointer;
 }
 
 .door:disabled {
-  background: #d9c5bd;
-  color: #a58e88;
+  opacity: .55;
   cursor: not-allowed;
 }
 
-.door.opened { background: #fff7e9; }
-
-.note {
-  max-width: 430px;
-  margin: 20px auto;
-  padding: 17px;
-  background: #fff9f5;
-  border: 2px solid white;
-  border-radius: 18px;
+.door.opened {
+  background: #fff;
 }
-
-footer { color: #bd7291; margin: 25px; }
 
 .modal {
   display: none;
   position: fixed;
   inset: 0;
-  background: #633d5277;
-  z-index: 10;
-  align-items: center;
+  background: #7b345a99;
+  z-index: 5;
   justify-content: center;
+  align-items: center;
   padding: 20px;
 }
 
-.modal.show { display: flex; }
-
 .letter {
-  background: #fff8f3;
-  border: 4px solid white;
+  background: #fff8fc;
+  border: 3px solid #f3b5d1;
   border-radius: 22px;
   padding: 28px 20px;
-  max-width: 340px;
+  max-width: 380px;
   width: 100%;
-  box-shadow: 0 8px 30px #59344a55;
+  box-shadow: 0 8px 30px #54213c55;
 }
 
-.letter h2 { color: #c15e8c; }
+.letter h2 {
+  color: #d66d9e;
+}
+
+.letter p {
+  line-height: 1.7;
+}
 
 .close {
-  background: #e995ba;
+  background: #e88bb5;
+  color: white;
   border: none;
   border-radius: 20px;
-  padding: 12px 25px;
-  color: white;
-  font-size: 16px;
+  padding: 11px 25px;
+  font-size: 15px;
 }
 
-@media (min-width: 500px) {
-  .doors { grid-template-columns: repeat(6, 1fr); }
+footer {
+  margin: 25px 0;
+  color: #c47b9e;
 }
 </style>
 </head>
 
 <body>
 
-<h1>♡ 24 días contigo ♡</h1>
-<p class="subtitle">Un pequeño mundo hecho para ti</p>
+<h1>24 días contigo 💗</h1>
+<p class="subtitle">Un pequeño regalo para alguien muy especial 🎀</p>
 
-<div class="scene">
-
-  <div class="tower left"></div>
-  <div class="tower right"></div>
-
-  <div class="house">
-
-    <div class="roof">
-      <h2>🍓 Nuestra casita dulce 🍓</h2>
-      <div>🍬 🤍 🍭 🤍 🍬</div>
-    </div>
-
-    <div class="candy">🍓 💗 🍡 💗 🍓</div>
-
-    <h3>Elige una puertecita ♡</h3>
-
-    <div class="doors" id="doors"></div>
-
-    <div class="candy">🍭 🤍 🍓 🤍 🍭</div>
-
-  </div>
+<div class="castle">
+  <img
+    src="11EB7685-B96D-40C5-8B85-B14A298376EC.png"
+    alt="Nuestro castillo de jengibre rosa y blanco"
+  >
+  <div class="doors" id="doors"></div>
 </div>
 
-<div class="note">
-  ✨ Cada puerta guarda una sorpresa especial. ✨
-  <p id="status">Vuelve cada día para descubrir una nueva.</p>
-</div>
+<footer>Hecho con mucho cariño 💗</footer>
 
 <div class="modal" id="modal">
   <div class="letter">
-    <div style="font-size:35px">💗</div>
-    <h2 id="letterTitle">Una sorpresa para ti</h2>
+    <h2 id="letterTitle"></h2>
     <p id="letterText"></p>
-    <button class="close" onclick="closeLetter()">Cerrar ♡</button>
+    <button class="close" onclick="closeLetter()">Cerrar 💗</button>
   </div>
 </div>
 
-<footer>Hecho con muchísimo amor ♡</footer>
-
 <script>
-const surprises = Array.from(
-  {length: 24},
-  (_, i) => `Aquí colocaremos nuestra sorpresa número ${i + 1}. ♡`
+const surprises = Array.from({length: 24}, (_, i) =>
+  `Aquí colocaremos nuestra sorpresa número ${i + 1}. 💗`
 );
 
 const doors = document.getElementById("doors");
-const modal = document.getElementById("modal");
-const opened = JSON.parse(
-  localStorage.getItem("puertasAbiertas") || "[]"
-);
 
-const today = new Date();
-today.setHours(0, 0, 0, 0);
-
-for (let day = 1; day <= 24; day++) {
-  const unlockDate = new Date(2026, 11, day);
+for (let i = 1; i <= 24; i++) {
   const button = document.createElement("button");
-
   button.className = "door";
-  button.textContent = day;
+  button.textContent = i;
 
-  if (opened.includes(day)) {
-    button.classList.add("opened");
-    button.textContent = "♥";
-  }
+  const today = new Date();
+  const unlockDate = new Date(2026, 11, i);
+  today.setHours(0, 0, 0, 0);
 
-  button.disabled = today < unlockDate;
+  const key = "puerta-" + i;
+  const alreadyOpened = localStorage.getItem(key) === "yes";
+
+  button.disabled = today < unlockDate && !alreadyOpened;
+
+  if (alreadyOpened) button.classList.add("opened");
 
   button.addEventListener("click", () => {
     if (today < unlockDate) return;
 
-    if (!opened.includes(day)) {
-      opened.push(day);
-      localStorage.setItem(
-        "puertasAbiertas",
-        JSON.stringify(opened)
-      );
-    }
-
+    localStorage.setItem(key, "yes");
     button.classList.add("opened");
-    button.textContent = "♥";
 
     document.getElementById("letterTitle").textContent =
-      `Día ${day} ♡`;
+      "Día " + i + " 💗";
 
     document.getElementById("letterText").textContent =
-      surprises[day - 1];
+      surprises[i - 1];
 
-    modal.classList.add("show");
+    document.getElementById("modal").style.display = "flex";
   });
 
   doors.appendChild(button);
 }
 
 function closeLetter() {
-  modal.classList.remove("show");
+  document.getElementById("modal").style.display = "none";
 }
 </script>
 
