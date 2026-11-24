@@ -117,6 +117,15 @@ h1 {
   line-height: 1.7;
 }
 
+.gift-image {
+  display: none;
+  width: 100%;
+  max-height: 280px;
+  object-fit: contain;
+  border-radius: 14px;
+  margin: 15px auto;
+}
+
 .close {
   background: #e88bb5;
   color: white;
@@ -136,6 +145,7 @@ footer {
 <body>
 
 <h1>25 días contigo 💗</h1>
+
 <p class="subtitle">
 Un pequeño regalo para alguien muy especial 🎀
 </p>
@@ -157,7 +167,15 @@ Un pequeño regalo para alguien muy especial 🎀
 <div class="modal" id="modal">
   <div class="letter">
     <h2 id="letterTitle"></h2>
+
+    <img
+      id="giftImage"
+      class="gift-image"
+      alt="Mi regalito para ti"
+    >
+
     <p id="letterText"></p>
+
     <button class="close" onclick="closeLetter()">
       Cerrar 💗
     </button>
@@ -169,8 +187,14 @@ const surprises = Array.from({length: 25}, (_, i) =>
   `Aquí colocaremos nuestra sorpresa número ${i + 1}. 💗`
 );
 
+// Imágenes de los regalos
+const giftImages = {
+  1: "regalos/117%20sin%20ti%CC%81tulo_20261124032155.jpeg"
+};
+
 // Posiciones de las 24 puertas del castillo.
 // Formato: [número, centro X, centro Y, ancho, alto]
+
 const positions = [
   [1, 50, 19, 10, 11],
   [2, 39, 24, 10, 11],
@@ -219,6 +243,16 @@ function openLetter(day) {
 
   document.getElementById("letterText").textContent =
     surprises[day - 1];
+
+  const image = document.getElementById("giftImage");
+
+  if (giftImages[day]) {
+    image.src = giftImages[day];
+    image.style.display = "block";
+  } else {
+    image.style.display = "none";
+    image.src = "";
+  }
 
   document.getElementById("modal").style.display = "flex";
 }
