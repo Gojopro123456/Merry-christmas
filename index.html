@@ -230,11 +230,7 @@ const positions = [
 const doors = document.getElementById("doors");
 
 function isUnlocked(day) {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  const unlockDate = new Date(2026, 11, day);
-  return today >= unlockDate;
+  return true;
 }
 
 function openLetter(day) {
