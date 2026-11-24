@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>24 días contigo 💗</title>
+<title>25 días contigo 💗</title>
 
 <style>
 * { box-sizing: border-box; }
@@ -45,31 +46,46 @@ h1 {
 .doors {
   position: absolute;
   inset: 0;
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: repeat(4, 1fr);
-  padding: 24% 13% 12%;
-  gap: 5px;
 }
 
 .door {
-  border: 2px solid #fff;
-  border-radius: 12px 12px 5px 5px;
-  background: rgba(255, 190, 218, .94);
-  color: #a74375;
-  font-size: clamp(12px, 3vw, 19px);
-  font-weight: bold;
-  box-shadow: 0 3px 6px #a94e7840;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  border: none;
+  background: transparent;
+  color: transparent;
   cursor: pointer;
+  padding: 0;
+  border-radius: 35%;
 }
 
 .door:disabled {
-  opacity: .55;
   cursor: not-allowed;
 }
 
+.door:focus-visible {
+  outline: 3px dashed #d66d9e;
+  background: #ffffff35;
+}
+
 .door.opened {
-  background: #fff;
+  background: #ffffff25;
+}
+
+.bonus {
+  margin: 18px auto;
+  padding: 14px 30px;
+  border: 2px solid white;
+  border-radius: 25px;
+  background: #e88bb5;
+  color: white;
+  font-size: 18px;
+  font-family: Georgia, serif;
+  box-shadow: 0 4px 10px #a94e7840;
+}
+
+.bonus:disabled {
+  opacity: .5;
 }
 
 .modal {
@@ -119,67 +135,140 @@ footer {
 
 <body>
 
-<h1>24 días contigo 💗</h1>
-<p class="subtitle">Un pequeño regalo para alguien muy especial 🎀</p>
+<h1>25 días contigo 💗</h1>
+<p class="subtitle">
+Un pequeño regalo para alguien muy especial 🎀
+</p>
 
 <div class="castle">
   <img
     src="11EB7685-B96D-40C5-8B85-B14A298376EC.png"
-    alt="Nuestro castillo de jengibre rosa y blanco"
+    alt="Castillo rosa de Navidad"
   >
   <div class="doors" id="doors"></div>
 </div>
 
-<footer>Hecho con mucho cariño 💗</footer>
+<button class="bonus" id="bonus">
+  Puerta 25 🎁💗
+</button>
+
+<footer>Hecho con muchísimo cariño 💗</footer>
 
 <div class="modal" id="modal">
   <div class="letter">
     <h2 id="letterTitle"></h2>
     <p id="letterText"></p>
-    <button class="close" onclick="closeLetter()">Cerrar 💗</button>
+    <button class="close" onclick="closeLetter()">
+      Cerrar 💗
+    </button>
   </div>
 </div>
 
 <script>
-const surprises = Array.from({length: 24}, (_, i) =>
+const surprises = Array.from({length: 25}, (_, i) =>
   `Aquí colocaremos nuestra sorpresa número ${i + 1}. 💗`
 );
 
+// Posiciones de las 24 puertas del castillo.
+// Formato: [número, centro X, centro Y, ancho, alto]
+const positions = [
+  [1, 50, 19, 10, 11],
+  [2, 39, 24, 10, 11],
+  [3, 61, 24, 10, 11],
+
+  [4, 30.5, 35, 10, 11],
+  [5, 42.5, 35, 10, 11],
+  [6, 57.5, 35, 10, 11],
+  [7, 69.5, 35, 10, 11],
+
+  [8, 22, 50, 10, 12],
+  [9, 35, 50, 10, 12],
+  [10, 50, 50, 12, 12],
+  [11, 65, 50, 10, 12],
+  [12, 79, 50, 10, 12],
+
+  [13, 22, 66, 10, 12],
+  [14, 35, 66, 10, 12],
+  [15, 50, 66, 12, 13],
+  [16, 65, 66, 10, 12],
+  [17, 79, 66, 10, 12],
+
+  [18, 22, 78, 10, 11],
+  [19, 35, 78, 10, 11],
+  [20, 50, 87, 14, 16],
+  [21, 65, 78, 10, 11],
+  [22, 79, 78, 10, 11],
+
+  [23, 28, 88, 11, 12],
+  [24, 72, 88, 11, 12]
+];
+
 const doors = document.getElementById("doors");
 
-for (let i = 1; i <= 24; i++) {
-  const button = document.createElement("button");
-  button.className = "door";
-  button.textContent = i;
-
+function isUnlocked(day) {
   const today = new Date();
-  const unlockDate = new Date(2026, 11, i);
   today.setHours(0, 0, 0, 0);
 
-  const key = "puerta-" + i;
+  const unlockDate = new Date(2026, 11, day);
+  return today >= unlockDate;
+}
+
+function openLetter(day) {
+  document.getElementById("letterTitle").textContent =
+    "Día " + day + " 💗";
+
+  document.getElementById("letterText").textContent =
+    surprises[day - 1];
+
+  document.getElementById("modal").style.display = "flex";
+}
+
+positions.forEach(([day, x, y, width, height]) => {
+  const button = document.createElement("button");
+
+  button.className = "door";
+  button.style.left = x + "%";
+  button.style.top = y + "%";
+  button.style.width = width + "%";
+  button.style.height = height + "%";
+  button.setAttribute("aria-label", "Puerta " + day);
+
+  const key = "puerta-" + day;
   const alreadyOpened = localStorage.getItem(key) === "yes";
 
-  button.disabled = today < unlockDate && !alreadyOpened;
+  button.disabled = !isUnlocked(day) && !alreadyOpened;
 
-  if (alreadyOpened) button.classList.add("opened");
+  if (alreadyOpened) {
+    button.classList.add("opened");
+  }
 
   button.addEventListener("click", () => {
-    if (today < unlockDate) return;
+    if (!isUnlocked(day)) return;
 
     localStorage.setItem(key, "yes");
     button.classList.add("opened");
-
-    document.getElementById("letterTitle").textContent =
-      "Día " + i + " 💗";
-
-    document.getElementById("letterText").textContent =
-      surprises[i - 1];
-
-    document.getElementById("modal").style.display = "flex";
+    openLetter(day);
   });
 
   doors.appendChild(button);
+});
+
+const bonus = document.getElementById("bonus");
+const bonusOpened = localStorage.getItem("puerta-25") === "yes";
+
+bonus.disabled = !isUnlocked(25) && !bonusOpened;
+
+if (bonusOpened) {
+  bonus.textContent = "Puerta 25 abierta 💗";
 }
+
+bonus.addEventListener("click", () => {
+  if (!isUnlocked(25)) return;
+
+  localStorage.setItem("puerta-25", "yes");
+  bonus.textContent = "Puerta 25 abierta 💗";
+  openLetter(25);
+});
 
 function closeLetter() {
   document.getElementById("modal").style.display = "none";
