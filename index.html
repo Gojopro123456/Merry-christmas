@@ -186,32 +186,37 @@ Un pequeño regalo para alguien muy especial 🎀
 const surprises = Array.from({length: 25}, () => "");
 
 // Los 24 regalos del calendario
+
+const ruta = nombre =>
+  ("regalos/" + nombre).normalize("NFD");
+
 const giftImages = {
-  1: "regalos/118 sin título_20261124040105.jpeg",
-  2: "regalos/122 sin título_20261124051417.jpeg",
-  3: "regalos/122 sin título_20261124051803.jpeg",
-  4: "regalos/122 sin título_20261124052107.jpeg",
-  5: "regalos/122 sin título_20261125014844.jpeg",
-  6: "regalos/122 sin título_20261124055013.jpeg",
-  7: "regalos/122 sin título_20261124052358.jpeg",
-  8: "regalos/122 sin título_20261124060556.jpeg",
-  9: "regalos/122 sin título_20261124061523.jpeg",
-  10: "regalos/116 sin título_20261124002108.jpeg",
-  11: "regalos/126 sin título_20261125060001.jpeg",
-  12: "regalos/126 sin título_20261125055112.jpeg",
-  13: "regalos/126 sin título_20261125055350.jpeg",
-  14: "regalos/126 sin título_20261125060608.jpeg",
-  15: "regalos/124 sin título_20261124224749.jpeg",
-  16: "regalos/126 sin título_20261125055727.jpeg",
-  17: "regalos/126 sin título_20261125060319.jpeg",
-  18: "regalos/126 sin título_20261125080623.jpeg",
-  19: "regalos/121 sin título_20261124045659.jpeg",
-  20: "regalos/121 sin título_20261124045150.jpeg",
-  21: "regalos/IMG_4979.jpeg",
-  22: "regalos/IMG_4980.jpeg",
-  23: "regalos/119 sin título_20261124043323.jpeg",
-  24: "regalos/117 sin título_20261124032155.jpeg"
+  1: ruta("118 sin título_20261124040105.jpeg"),
+  2: ruta("122 sin título_20261124051417.jpeg"),
+  3: ruta("122 sin título_20261124051803.jpeg"),
+  4: ruta("122 sin título_20261124052107.jpeg"),
+  5: ruta("122 sin título_20261125014844.jpeg"),
+  6: ruta("122 sin título_20261124055013.jpeg"),
+  7: ruta("122 sin título_20261124052358.jpeg"),
+  8: ruta("122 sin título_20261124060556.jpeg"),
+  9: ruta("122 sin título_20261124061523.jpeg"),
+  10: ruta("116 sin título_20261124002108.jpeg"),
+  11: ruta("126 sin título_20261125060001.jpeg"),
+  12: ruta("126 sin título_20261125055112.jpeg"),
+  13: ruta("126 sin título_20261125055350.jpeg"),
+  14: ruta("126 sin título_20261125060608.jpeg"),
+  15: ruta("124 sin título_20261124224749.jpeg"),
+  16: ruta("126 sin título_20261125055727.jpeg"),
+  17: ruta("126 sin título_20261125060319.jpeg"),
+  18: ruta("126 sin título_20261125080623.jpeg"),
+  19: ruta("121 sin título_20261124045659.jpeg"),
+  20: ruta("121 sin título_20261124045150.jpeg"),
+  21: ruta("IMG_4979.jpeg"),
+  22: ruta("IMG_4980.jpeg"),
+  23: ruta("119 sin título_20261124043323.jpeg"),
+  24: ruta("117 sin título_20261124032155.jpeg")
 };
+
 
 // Posiciones de las 24 puertas del castillo.
 // Formato: [número, centro X, centro Y, ancho, alto]
