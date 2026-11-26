@@ -221,7 +221,14 @@ footer {
   font-size: 17px;
   color: #a94e78;
 }
-
+.totem-image {
+  display: block;
+  width: min(190px, 70%);
+  max-height: 230px;
+  object-fit: contain;
+  margin: 10px auto;
+  filter: drop-shadow(0 5px 8px #a94e7840);
+}
 @keyframes aparecer {
   from { transform: scale(.2); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
@@ -277,10 +284,14 @@ Un pequeño regalo para alguien muy especial 🎀
       </button>
 
       <div class="totem-reward" id="totemReward">
-        🗿
-        <p>¡El Tótem de la Inmortalidad! ✨</p>
-        <p>Un último regalo para ti 💗</p>
-      </div>
+  <img
+    src="regalos/292B1C77-C213-4E10-A168-7477103A2A14.png"
+    alt="Tótem de la Inmortalidad"
+    class="totem-image"
+  >
+  <p>¡El Tótem de la Inmortalidad! ✨</p>
+  <p>Un último regalo para ti 💗</p>
+</div>
     </div>
 
     <button class="close" type="button" onclick="closeLetter()">
