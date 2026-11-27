@@ -299,11 +299,13 @@ Un pequeño regalo para alguien muy especial 🎀
     </button>
   </div>
 </div>
-
 <script>
 const surprises = Array.from({length: 25}, () => "");
 
-// Los 24 regalos del calendario
+// Fecha de inicio del calendario
+const CALENDAR_YEAR = 2026;
+const CALENDAR_MONTH = 11; // Diciembre (enero = 0)
+
 const ruta = nombre =>
   ("regalos/" + nombre).normalize("NFD");
 
@@ -334,7 +336,6 @@ const giftImages = {
   24: ruta("117 sin título_20261124032155.jpeg")
 };
 
-// Posiciones originales de las 24 puertas del castillo.
 const positions = [
   [1, 50, 19, 10, 11],
   [2, 39, 24, 10, 11],
@@ -365,8 +366,31 @@ const positions = [
 const doors = document.getElementById("doors");
 const bonus = document.getElementById("bonus");
 
-// Compatibilidad: si ya se había abierto el regalo 10,
-// se considera que la llave ya fue conseguida.
+// Comprobar la fecha local del dispositivo
+function getCalendarDay() {
+  const now = new Date();
+
+  if (now.getFullYear() !== CALENDAR_YEAR) {
+    return now.getFullYear() > CALENDAR_YEAR ? 25 : 0;
+  }
+
+  if (now.getMonth() !== CALENDAR_MONTH) {
+    return now.getMonth() > CALENDAR_MONTH ? 25 : 0;
+  }
+
+  return now.getDate();
+}
+
+// Comprobar si un regalo ya está disponible
+function isUnlocked(day) {
+  if (day === 25) {
+    return getCalendarDay() >= 25 && hasKey();
+  }
+
+  return getCalendarDay() >= day;
+}
+
+// Recuperar la llave
 if (localStorage.getItem("puerta-10") === "yes") {
   localStorage.setItem("llave-regalo10", "yes");
 }
@@ -375,20 +399,30 @@ function hasKey() {
   return localStorage.getItem("llave-regalo10") === "yes";
 }
 
-function isUnlocked(day) {
-  if (day === 25) return hasKey();
-  return true;
-}
-
+// Actualizar puerta 25
 function updateBonusButton() {
   const opened = localStorage.getItem("puerta-25") === "yes";
-  bonus.disabled = !hasKey() && !opened;
+
+  bonus.disabled = !isUnlocked(25);
+
   bonus.textContent = opened
     ? "Puerta 25 abierta 💗"
     : "Puerta 25 🎁💗";
 }
 
+// Actualizar todas las puertas
+function updateDoors() {
+  document.querySelectorAll(".door").forEach(button => {
+    const day = Number(button.dataset.day);
+    button.disabled = !isUnlocked(day);
+  });
+
+  updateBonusButton();
+}
+
 function openLetter(day) {
+  if (!isUnlocked(day)) return;
+
   document.getElementById("letterTitle").textContent =
     day === 25 ? "¡Tu último regalo! 💗" : "Día " + day + " 💗";
 
@@ -401,8 +435,10 @@ function openLetter(day) {
   if (day === 25) {
     image.style.display = "none";
     image.removeAttribute("src");
+
     letterText.textContent =
       "Llegaste hasta el último regalo. ¡Usa tu llave para descubrirlo!";
+
     renderChest();
   } else {
     letterText.textContent = surprises[day - 1] || "";
@@ -419,6 +455,7 @@ function openLetter(day) {
   document.getElementById("modal").style.display = "flex";
 }
 
+// Mostrar el estado del cofre
 function renderChest() {
   const opened = localStorage.getItem("cofre-25") === "yes";
 
@@ -432,29 +469,32 @@ function renderChest() {
     opened ? "¡Cofre abierto! 💗" : "Abrir cofre 🎁";
 }
 
+// Abrir el cofre final
 function openChest() {
-  if (!hasKey()) return;
+  if (!hasKey() || getCalendarDay() < 25) return;
 
   localStorage.setItem("cofre-25", "yes");
   renderChest();
 }
 
-// Crear las 24 puertas del castillo.
+// Crear las 24 puertas
 positions.forEach(([day, x, y, width, height]) => {
   const button = document.createElement("button");
 
   button.type = "button";
   button.className = "door";
+
   button.style.left = x + "%";
   button.style.top = y + "%";
   button.style.width = width + "%";
   button.style.height = height + "%";
+
+  button.dataset.day = day;
   button.setAttribute("aria-label", "Puerta " + day);
 
   const key = "puerta-" + day;
-  const alreadyOpened = localStorage.getItem(key) === "yes";
 
-  if (alreadyOpened) {
+  if (localStorage.getItem(key) === "yes") {
     button.classList.add("opened");
   }
 
@@ -463,36 +503,36 @@ positions.forEach(([day, x, y, width, height]) => {
 
     localStorage.setItem(key, "yes");
 
-    // El regalo 10 entrega la llave para abrir la puerta 25.
     if (day === 10) {
       localStorage.setItem("llave-regalo10", "yes");
-      updateBonusButton();
     }
 
     button.classList.add("opened");
+
+    updateDoors();
     openLetter(day);
   });
 
   doors.appendChild(button);
 });
 
-// La puerta 25 se desbloquea únicamente al conseguir la llave del regalo 10.
-updateBonusButton();
-
+// Puerta 25
 bonus.addEventListener("click", () => {
-  if (!isUnlocked(25) &&
-      localStorage.getItem("puerta-25") !== "yes") {
-    return;
-  }
+  if (!isUnlocked(25)) return;
 
   localStorage.setItem("puerta-25", "yes");
+
   updateBonusButton();
   openLetter(25);
 });
 
+// Cerrar ventana
 function closeLetter() {
   document.getElementById("modal").style.display = "none";
 }
+
+// Comprobar desbloqueos al cargar
+updateDoors();
 </script>
 
 </body>
